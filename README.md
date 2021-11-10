@@ -1,16 +1,62 @@
 ### Hi there 👋
+(async () => {
 
-<!--
-**Loafzz/Loafzz** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+    const garageSections = prompt('Enter the number of garage sections you would like to have in total (NOTE: There are 30 individual garage slots per section):');
+    
+    if (garageSections === null) return;
+    
+    /* Source: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie */
+    const getCookieValue = name => {
+        return document.cookie
+            .split('; ')
+            .find(element => element.startsWith(name + '='))
+            .split('=')[1];
+    };
+    
+    const uhashParameter = 'uhash=' + getCookieValue('ntuserrem');
+  
+    let i, garageParameter = '';
 
-Here are some ideas to get you started:
+    for (i = 0; i < garageSections * 30; i++) {
+        garageParameter += 'garage%5B' + i + '%5D=&';
+    };
+  
+  
+    await fetch("https://www.nitrotype.com/api/cars-arrange", {
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "body": garageParameter + uhashParameter,
+      "method": "POST",
+      "mode": "cors"
+    });
+    
+    alert("Logging you out... Please log back in to see changes.");
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+    await fetch("https://www.nitrotype.com/api/logout", {
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      "body": uhashParameter,
+      "method": "POST",
+      "mode": "cors"
+    });
+
+    location.reload();
+
+})()
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+
+
+
